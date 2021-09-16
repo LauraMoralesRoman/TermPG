@@ -1,43 +1,44 @@
 #ifndef FRAME_BUFFER
 #define FRAME_BUFFER
 
-typedef unsigned int size_t;
+typedef __SIZE_TYPE__ size_t;
 
+// Frame Buffer
 namespace tpg {
-    template<typename Color>
+    extern size_t termW, termH;
+
+    // FrameBuffer
     class FrameBuffer {
         public:
         FrameBuffer(size_t width, size_t height);
         FrameBuffer();
 
-        void render();
         private:
-        Color* internal;
+        size_t width_, height_;
     };
-}
 
-// Hidden implementation details
-namespace impl {
-    // Run before main()
-    #include <stdio.h>
-    bool start() {
-        printf("Hola mundo");
-
-        return true;
+    namespace __impl {
+        char start_code();
     }
-
-    volatile bool runned = start();
 }
 
-// Class implementation
-template<typename Color>
-tpg::FrameBuffer<Color>::FrameBuffer() {
+// Colors TODO: color definition and implementation
+namespace tpg {
 
-}
+    class Color {
 
-template<typename Color>
-tpg::FrameBuffer<Color>::FrameBuffer(size_t width, size_t height) {
+    };
 
+
+    namespace __impl {
+        class ColorRGB {
+
+        };
+
+        class ColorRGBA {
+
+        };
+    }
 }
 
 #endif
