@@ -105,8 +105,8 @@ void tpg::FrameBuffer<Color>::render() {
                 changed = true;
             }
         }
-        if (y < height_ - 2)
-            putchar('\n');
+        if ((y < height_ - 2) && !changed)
+            fputs("\033[0m\n", stdout);
     }
     fflush(stdout);
     force_full_render_ = false;
@@ -147,7 +147,7 @@ void insert_uint8_t(char* text, uint8_t n) {
 // Color setting 
 template<typename Color>
 void tpg::FrameBuffer<Color>::set_pixel(const size_t x, const size_t y, const Color& color) {
-    internal_[x + y * width_] = color;
+    internal_[x + y * width_].apply(color);
 }
 
 // Color implementation
@@ -176,6 +176,25 @@ float tpg::Color::diff(const Color& a, const Color& b) {
 
 float tpg::ColorBW::diff(const ColorBW& a, const ColorBW& b) {
     return abs(a.value - b.value) / 255.0f;
+}
+
+// Alpha blending implementation for colors
+// RGBA Color
+void tpg::Color::apply(const Color& other) {
+    float source = (float)other.a / 255.0f;
+    float destination = 1.0f - source;
+    
+    a = other.a + a * (255 - other.a);
+
+    r = (r * destination + other.r * source);
+    g = (g * destination + other.g * source);
+    b = (b * destination + other.b * source);
+
+    // Posible implementation
+    // r -= (float)other.r * source;
+    // g -= (float)other.g * source;
+    // b -= (float)other.b * source;
+
 }
 
 // Declare available template types

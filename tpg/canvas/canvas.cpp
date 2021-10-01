@@ -16,7 +16,9 @@ template<typename Color>
 void tpg::Canvas<Color>::begin(void (*loop)(tpg::Canvas<Color>&)) {
     running_ = true;
     while (running_) {
-        auto next_time = std::chrono::steady_clock::now() + ((frame_rate != 0) ? (std::chrono::operator""s(1.0 / (double)frame_rate_)):(0));
+        std::chrono::system_clock::time_point next_time = std::chrono::system_clock::now();
+        if (frame_rate != 0)
+            next_time += std::chrono::microseconds((unsigned long)(1000000.0 / (double)frame_rate_));
 
         loop(*this);
         render();

@@ -25,9 +25,9 @@ namespace tpg {
     template<typename Color = tpg::Color>
     class FrameBuffer {
         public:
-        /** @brief Read only the width of the frame buffer /*
+        /** @brief Read only the width of the frame buffer */
         const size_t& width = width_;
-        /** @brief Read only the height of the frame buffer /*
+        /** @brief Read only the height of the frame buffer */
         const size_t& height = height_;
 
         FrameBuffer(const size_t width, const size_t height);
@@ -86,11 +86,19 @@ namespace tpg {
          * It's used for internal optimizations.
          */
         class Color {
+            public:
             /**
              * @brief Returns the difference between two colors (neccessary for some internal optimizations)
              * @return The difference (from 0 to 1) between two colors
              */
             float diff();
+            template<typename Implementation>
+            /**
+             * @brief Applies one color to another. Used to allow custom implementation (ex: alpha blending) on another colors.
+             * 
+             * @param other Color to be applied.
+             */
+            void apply(const Implementation& other) {*this = other;}
         };
     }
 
@@ -110,6 +118,8 @@ namespace tpg {
 
         bool operator==(const Color& other);
         bool operator!=(const Color& other);
+
+        void apply(const Color& other);
 
         static float diff(const Color& a, const Color& b);
         private:
