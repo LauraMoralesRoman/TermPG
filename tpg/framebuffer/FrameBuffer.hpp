@@ -16,6 +16,7 @@ namespace tpg {
          * @brief Code executed before main (used for dynamic initializations)
          */
         char start_code();
+        class Color;
     }
 
     /**
@@ -48,6 +49,21 @@ namespace tpg {
          * @param y y position of the pixel
          */
         void set_pixel(const size_t x, const size_t y, const Color& color);
+
+        // Utility functions
+        /**
+         * @brief Sets the entire screen to one color
+         * @param color color to fill the screen
+         * @details needed to implement here for linking issues
+         */
+        template<typename ClearColor>
+        void clear(const ClearColor& color) {
+            for (size_t y = 0; y < height_; y++) {
+                for (size_t x = 0; x < width_; x++)
+                    internal_[x + y * width_] = color;
+            }
+        }
+
         /**
          * @brief Sets the threashold used when comparing previous frames on the color difference optimization.
          * This optimization consists on comparing the color values on each pixel to avoid rendering it if it's only slightly differnet to the previous rendered color.
@@ -63,12 +79,14 @@ namespace tpg {
          */
         __inline void render_pixels_(const Color* top_color, const Color* bottom_color);
 
+        protected:
         /** @brief width and height of the internal frame buffer */
         size_t width_, height_;
         /** @brief Internal array containing the colors to be rendered */
         Color* internal_;
         /** @brief Internal array containing the colors of the previous rendered frame (used for optimization purposes) */
         Color* prev_internal_;
+        private:
 
         /** @brief Threshold for the color comparison optimization */
         float minimum_change_ = 0.01f;
@@ -91,13 +109,13 @@ namespace tpg {
              * @brief Returns the difference between two colors (neccessary for some internal optimizations)
              * @return The difference (from 0 to 1) between two colors
              */
-            float diff();
-            template<typename Implementation>
+            static float diff();
             /**
              * @brief Applies one color to another. Used to allow custom implementation (ex: alpha blending) on another colors.
              * 
              * @param other Color to be applied.
              */
+            template<typename Implementation>
             void apply(const Implementation& other) {*this = other;}
         };
     }
@@ -105,7 +123,7 @@ namespace tpg {
     /**
      * Default color containing RGBA components.
      */
-    class Color : public __impl::Color {
+    class Color : public virtual __impl::Color {
         public:
         /**
          * Color components

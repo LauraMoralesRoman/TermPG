@@ -150,6 +150,8 @@ void tpg::FrameBuffer<Color>::set_pixel(const size_t x, const size_t y, const Co
     internal_[x + y * width_].apply(color);
 }
 
+// Utility methods
+
 // Color implementation
 tpg::Color::Color()
     : r(0), g(0), b(0), a(255) {}
