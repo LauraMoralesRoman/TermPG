@@ -70,10 +70,20 @@ namespace tpg {
          */
         uint8_t debug_flags = 0x00;
         enum flags : uint8_t {
-            FPS =           0b00000001,
-            DELTATIME =     0b00000010,
-            FRAMECOUNT =    0b00000100
+            FPS =           0b00000001, // 1
+            DELTATIME =     0b00000010, // 1<<1
+            FRAMECOUNT =    0b00000100  
         };
+
+        protected:
+        /**
+         * @brief Function that runs before the user defined loop method
+         */
+        virtual void pre_loop_() {};
+        /**
+         * @brief Function that runs after the user defined loop method
+         */
+        virtual void post_loop_() {};
     };
 }
 

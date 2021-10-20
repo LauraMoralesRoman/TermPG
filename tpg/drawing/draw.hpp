@@ -10,9 +10,11 @@ namespace tpg {
         DrawingCanvas();
         ~DrawingCanvas();
 
-        void draw();
+        void render();
         private:
         uint8_t* z_index_;
+
+        void internal_render_();
     };
 }
 
@@ -26,6 +28,8 @@ namespace tpg {
         public:
         Shape(float* vertices, int* indices, const int num_indices, const int num_vertices, const bool copy = true);
         ~Shape();
+
+        void render(); //Renders the shape
         private:
         float* vertices_;
         int* indices_;

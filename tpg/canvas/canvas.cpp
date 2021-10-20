@@ -25,8 +25,11 @@ void tpg::Canvas<Color>::begin(void (*loop)(tpg::Canvas<Color>&)) {
         if (frame_rate != 0)
             next_time += std::chrono::microseconds((unsigned long)(1000000.0 / (double)frame_rate_));
 
+        pre_loop_();
         loop(*this);
+        post_loop_();
         render();
+
         // Application of debug flags
         if (debug_flags)
             fputs("\033[0m\033[1;1H", stdout);
