@@ -1,6 +1,7 @@
 #Tell make to make one .out file for each .cpp file found in the current directory
 .PHONY: clean
-all: main 
+all: main build
+	
 
 CXX=g++
 CXXFLAGS= 
@@ -14,13 +15,16 @@ main: $(objects) build/main.o
 build/main.o: $(objects) main.cpp
 	$(CXX) $(CXXFLAGS) $^ -c -o $@
 
-build/framebuffer.o: tpg/framebuffer/FrameBuffer.cpp
+build/framebuffer.o: build tpg/framebuffer/FrameBuffer.cpp
 	$(CXX) $(CXXFLAGS) -c $^ -o $@
-build/canvas.o: tpg/canvas/canvas.cpp
+build/canvas.o: build tpg/canvas/canvas.cpp
 	$(CXX) $(CXXFLAGS) -c $^ -o $@
-build/draw.o: tpg/drawing/draw.cpp
+build/draw.o: build tpg/drawing/draw.cpp
 	$(CXX) $(CXXFLAGS) -c $^ -o $@
+
+build:
+	mkdir -p build
 
 clean:
 	@rm -v main
-	@rm -v build/*
+	@rm -rv build/
