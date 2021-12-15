@@ -180,6 +180,9 @@ float tpg::ColorBW::diff(const ColorBW& a, const ColorBW& b) {
     return abs(a.value - b.value) / 255.0f;
 }
 
+tpg::ColorBW::ColorBW(const int value)
+    : value(value) {}
+
 // Alpha blending implementation for colors
 // RGBA Color
 void tpg::Color::apply(const Color& other) {

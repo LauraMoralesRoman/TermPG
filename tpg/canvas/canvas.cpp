@@ -2,6 +2,7 @@
 
 #include <thread>
 #include <chrono>
+#include <cstdio>
 
 // template<typename Color>
 // tpg::Canvas<Color>::Canvas(){}

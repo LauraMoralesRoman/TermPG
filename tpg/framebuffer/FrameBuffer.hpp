@@ -150,12 +150,19 @@ namespace tpg {
      */
     class ColorBW : public __impl::Color {
         public:
+        ColorBW(const int value);
+        ColorBW() = default;
         /**
          * Gray value of the color (0 to 16)
          */
         uint8_t value;
 
         static float diff(const ColorBW& a, const ColorBW& b);
+
+        /**
+          * @brief Conversion from int
+          */
+        
     };
 }
 
