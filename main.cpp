@@ -23,7 +23,6 @@ float tri[] = {
     1
 };
 int main() {
-
     tpg::DrawingCanvas<tpg::Color> canvas;
     canvas.set_frame_rate(24);
 

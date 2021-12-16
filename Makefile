@@ -9,10 +9,11 @@ CXX=g++
 CXXFLAGS= 
 VPATH = tpg/
 
-objects=build/framebuffer.o build/canvas.o build/draw.o
+objects=build/framebuffer.o build/canvas.o build/draw.o build/vertex.o build/renderable.o
 
 main: $(objects) build/main.o
 	$(CXX) $(CXXFLAGS) $^ -o main
+	@printf "\n\033[32mCompilado terminado exitosamente\033[0m\n"
 
 build/main.o: $(objects) main.cpp
 	$(CXX) $(CXXFLAGS) $^ -c -o $@
@@ -26,13 +27,19 @@ build/canvas.o: tpg/canvas/canvas.cpp
 build/draw.o: tpg/drawing/draw.cpp
 	$(DIRGUARD)	
 	$(CXX) $(CXXFLAGS) -c $^ -o $@
+build/vertex.o: tpg/drawing/vertex.cpp
+	$(DIRGUARD)
+	$(CXX) $(CXXFLAGS) -c $^ -o $@
+build/renderable.o: tpg/drawing/renderable.cpp
+	$(DIRGUARD)
+	$(CXX) $(CXXFLAGS) -c $^ -o $@
 
 build:
-	if [ ! -d "build" ]; then printf "\033[32mCreando directorio de build\033[0m\g"; mkdir build; fi
+	@if [ ! -d "build" ]; then printf "\033[32mCreando directorio de build\033[0m\g"; mkdir build; fi
 
 clean:
-	@rm -v main
-	@rm -rv build/
+	-@rm -v main
+	-@rm -rv build/
 
 run: main
 	./main
