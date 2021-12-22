@@ -32,6 +32,7 @@ namespace tpg {
 
     // Sintax sugar operators
     Vertex& operator[](const size_t index) { return vertices_.get()[index]; }
+    const Vertex& operator[](const size_t index) const { return vertices_.get()[index]; }
     size_t * indices; 
 
     const size_t& num_vertices = num_vertices_;

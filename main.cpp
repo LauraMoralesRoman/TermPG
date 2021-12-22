@@ -3,6 +3,7 @@
 #include "tpg/drawing/draw.hpp"
 #include "tpg/drawing/renderable.hpp"
 #include "tpg/drawing/vertex.hpp"
+#include "tpg/drawing/engine/vector.hpp"
 
 #include <iostream>
 
@@ -23,6 +24,8 @@ void loop(tpg::Canvas<tpg::Color>& canvas) {
 }
 
 int main() {
+    tpg::Vector3 v; 
+
     tpg::DrawingCanvas<tpg::Color> canvas;
     canvas.set_frame_rate(24);
 
@@ -31,11 +34,10 @@ int main() {
     vb[0] = {1, 2, 3};
 
     canvas.draw(vb);
-
     canvas.debug_flags |= canvas.FPS;   
 
     // Pruebas con vértices
-    
+    canvas.begin(loop);
 
     return 0;
 }

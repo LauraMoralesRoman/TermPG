@@ -11,8 +11,7 @@ template<typename Color>
 void tpg::DrawingCanvas<Color>::draw(const Renderable* renderable) {
     draw(renderable->get_bundle());
 }
-
-// ##############################################
+//#############################################
 // 3D render engine
 // ##############################################
 
@@ -24,7 +23,12 @@ void tpg::DrawingCanvas<Color>::draw(VertexBundle const& vb) const {
     }
     
     for (size_t i = 0; i < vb.num_indices; i+= 3) {
+        Vertex v1 = vb[i];
+        Vertex v2 = vb[i + 1];
+        Vertex v3 = vb[i + 2];
 
+        // Apply transforms to vertices
+        
     }
 }
 
