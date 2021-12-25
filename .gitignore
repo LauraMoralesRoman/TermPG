@@ -2,6 +2,6 @@
 main
 *.o
 
-.exrc
+".exrc"
 
 
