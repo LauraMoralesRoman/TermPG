@@ -24,8 +24,6 @@ void loop(tpg::Canvas<tpg::Color>& canvas) {
 }
 
 int main() {
-    tpg::Vector3 v; 
-
     tpg::DrawingCanvas<tpg::Color> canvas;
     canvas.set_frame_rate(24);
 
@@ -33,11 +31,12 @@ int main() {
     vb.indices[0] = 2;
     vb[0] = {1, 2, 3};
 
-    canvas.draw(vb);
-    canvas.debug_flags |= canvas.FPS;   
-
-    // Pruebas con vértices
-    canvas.begin(loop);
-
+    tpg::Vector3 v(1, 2, 3);
+    tpg::Vector3 v2(2, 3, 4);
+    v += v2;
+    v *= 1.2;
+    tpg::Vector3 res = v;
+    printf("%f %f %f\n", res.x, res.y, res.z);
+    printf("%f %f %f\n", res.norm.x, res.norm.y, res.norm.z);
     return 0;
 }
