@@ -24,8 +24,6 @@ void loop(tpg::Canvas<tpg::Color>& canvas) {
 }
 
 int main() {
-    tpg::Vector3 v; 
-
     tpg::DrawingCanvas<tpg::Color> canvas;
     canvas.set_frame_rate(24);
 
@@ -49,6 +47,5 @@ int main() {
             std::cout << m[y][x];
         }
     }
-
     return 0;
 }
