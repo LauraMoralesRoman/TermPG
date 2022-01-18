@@ -37,7 +37,18 @@ int main() {
     canvas.debug_flags |= canvas.FPS;   
 
     // Pruebas con vértices
-    canvas.begin(loop);
+    //canvas.begin(loop);
+
+    tpg::TMatrix m{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    tpg::TMatrix m2{16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+
+    m *= m2;
+
+    for (int y = 0; y < 4; y++) {
+        for (int x = 0; x < 4; x++) {
+            std::cout << m[y][x];
+        }
+    }
 
     return 0;
 }

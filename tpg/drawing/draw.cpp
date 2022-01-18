@@ -28,7 +28,7 @@ void tpg::DrawingCanvas<Color>::draw(VertexBundle const& vb) const {
         Vertex v3 = vb[i + 2];
 
         // Apply transforms to vertices
-        
+         
     }
 }
 
