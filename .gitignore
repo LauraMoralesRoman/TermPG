@@ -4,4 +4,7 @@ main
 
 ".exrc"
 
+**/docs/html/
+**/docs/latex/
+
 

@@ -20,7 +20,7 @@ namespace tpg {
     }
 
     /**
-     * @brief Allow for rendering of a internal frame buffer. This is an array 
+     * @brief Allowx the rendering of a internal frame buffer. This is an array 
      * storing the color of each pixel in each position, which is modifiable.
      */
     template<typename Color = tpg::Color>

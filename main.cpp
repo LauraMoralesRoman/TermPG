@@ -4,6 +4,7 @@
 #include "tpg/drawing/renderable.hpp"
 #include "tpg/drawing/vertex.hpp"
 #include "tpg/drawing/engine/vector.hpp"
+#include "tpg/drawing/engine/projection.hpp"
 
 #include <iostream>
 
@@ -37,15 +38,19 @@ int main() {
     // Pruebas con vértices
     //canvas.begin(loop);
 
-    tpg::TMatrix m{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    tpg::TMatrix m{ 1, 2, 3, 4,
+                    5, 6, 7, 8,
+                    9, 10, 11, 12,
+                    13, 14, 15, 16};
     tpg::TMatrix m2{16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 
     m *= m2;
 
     for (int y = 0; y < 4; y++) {
         for (int x = 0; x < 4; x++) {
-            std::cout << m[y][x];
+            std::cout << m[y][x] << ' ';
         }
+        std::cout << '\n';
     }
     return 0;
 }

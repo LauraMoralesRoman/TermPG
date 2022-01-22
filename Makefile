@@ -2,6 +2,7 @@
 .PHONY: run
 .PHONY: clean
 .PHONY: debug
+.PHONY: docs
 all: main build
 	
 DIRGUARD=@if [ ! -d "build" ]; then printf "\n\033[32mCreando directorio de build\033[0m\n"; mkdir build; fi
@@ -47,6 +48,8 @@ clean:
 	-@rm -v main
 	-@rm -rv build/
 	-@rm -rv ./*.o
+	-@rm -rv docs/html
+	-@rm -rv docs/latex
 
 run: main
 	@./main
@@ -56,3 +59,6 @@ debug:
 	$(MAKE) clean
 	$(MAKE) main -e CXXFLAGS=$(CXXFLAGS)
 
+docs:
+	@if [ ! -d "docs" ]; then printf "\n\033[32mCreando directorio para la documentación\033[0m\n"; mkdir docs; fi
+	doxygen Doxyfile
