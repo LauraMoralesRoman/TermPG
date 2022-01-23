@@ -3,6 +3,7 @@
 #include <thread>
 #include <chrono>
 #include <cstdio>
+#include <functional>
 
 // template<typename Color>
 // tpg::Canvas<Color>::Canvas(){}
@@ -19,6 +20,13 @@ size_t start_mean_ring_buffer = 0;
 
 template<typename Color>
 void tpg::Canvas<Color>::begin(void (*loop)(tpg::Canvas<Color>&)) {
+    begin_([&]() {
+        loop(*this);
+    });
+}
+
+template<typename Color>
+void tpg::Canvas<Color>::begin_(std::function<void()> callable) {
     running_ = true;
     while (running_) {
         auto start = std::chrono::steady_clock::now();
@@ -27,7 +35,7 @@ void tpg::Canvas<Color>::begin(void (*loop)(tpg::Canvas<Color>&)) {
             next_time += std::chrono::microseconds((unsigned long)(1000000.0 / (double)frame_rate_));
 
         pre_loop_();
-        loop(*this);
+        callable();
         post_loop_();
         render();
 

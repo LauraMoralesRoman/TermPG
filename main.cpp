@@ -14,43 +14,41 @@
 
 using namespace std::chrono_literals;
 
-int cnt = 0;
-void loop(tpg::Canvas<tpg::Color>& canvas) {
-    for (int y = 0; y < canvas.height; y++) {
-        for (int x = 0; x < canvas.width; x++) {
-            canvas.set_pixel(x, y, tpg::Color(x * 255 / canvas.width, y * 255 / canvas.height, cnt % 255));
-        }
-    }
-    cnt++;
+void loop(tpg::DrawingCanvas<tpg::Color>& canvas) {
+    tpg::VertexBundle vb(3, 3);
+    vb.indices[0] = 2;
+    vb[0] = {-0.5, -0.5, 0};
+    vb[1] = {-0.5, 0.5, 0};
+    vb[2] = {0.5, -0.5, 0};
+    
+    static float angle = 0;
+    tpg::Color black{0, 0, 0};
+    canvas.clear(black);
+    canvas.rotate(0, 0, 0.05);
+    canvas.draw(vb);
 }
 
 int main() {
     tpg::DrawingCanvas<tpg::Color> canvas;
     canvas.set_frame_rate(24);
+    canvas.translate(50, 30, 0);
+    canvas.scale(10, 10, 10);
 
+    //canvas.debug_flags |= canvas.FPS;   
     tpg::VertexBundle vb(3, 3);
     vb.indices[0] = 2;
-    vb[0] = {1, 2, 3};
+    vb[0] = {-25, -25, 0};
+    vb[1] = {-25, 25, 0};
+    vb[2] = {25, -25, 0};
 
-    canvas.draw(vb);
-    canvas.debug_flags |= canvas.FPS;   
+
+    //canvas.render();
 
     // Pruebas con vértices
     //canvas.begin(loop);
+    canvas.begin(loop);
 
-    tpg::TMatrix m{ 1, 2, 3, 4,
-                    5, 6, 7, 8,
-                    9, 10, 11, 12,
-                    13, 14, 15, 16};
-    tpg::TMatrix m2{16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 
-    m *= m2;
-
-    for (int y = 0; y < 4; y++) {
-        for (int x = 0; x < 4; x++) {
-            std::cout << m[y][x] << ' ';
-        }
-        std::cout << '\n';
-    }
     return 0;
 }
+////////////

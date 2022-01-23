@@ -9,7 +9,12 @@ namespace tpg {
   typedef unsigned long long int size_t;
 
   struct Vertex {
-    float x, y, z;
+    typedef double v_type;
+    struct V3 {
+        size_t x, y, z;
+    };
+    v_type x, y, z;
+    V3 get_aprox();
   };
 
   enum class VGroupModes {

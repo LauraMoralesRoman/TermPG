@@ -147,6 +147,9 @@ void insert_uint8_t(char* text, uint8_t n) {
 // Color setting 
 template<typename Color>
 void tpg::FrameBuffer<Color>::set_pixel(const size_t x, const size_t y, const Color& color) {
+    if (x >= width_ || y >= height_)
+        return;
+
     internal_[x + y * width_].apply(color);
 }
 

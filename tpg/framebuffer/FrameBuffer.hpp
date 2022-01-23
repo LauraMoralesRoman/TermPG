@@ -96,7 +96,6 @@ namespace tpg {
 
 }
 
-// Colors TODO: color definition and implementation
 namespace tpg {
     namespace __impl {
         /**
