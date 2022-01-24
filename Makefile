@@ -3,6 +3,7 @@
 .PHONY: clean
 .PHONY: debug
 .PHONY: docs
+.PHONY: count
 all: main build
 	
 DIRGUARD=@if [ ! -d "build" ]; then printf "\n\033[32mCreando directorio de build\033[0m\n"; mkdir build; fi
@@ -62,3 +63,6 @@ debug:
 docs:
 	@if [ ! -d "docs" ]; then printf "\n\033[32mCreando directorio para la documentación\033[0m\n"; mkdir docs; fi
 	doxygen Doxyfile
+
+count:
+	@wc -l $(shell find -name '*.[hc]pp' | grep -v main)
