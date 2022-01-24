@@ -54,7 +54,7 @@ tpg::FrameBuffer<Color>::~FrameBuffer() {
 // Rendering
 // ######################################
 
-char change_position[] = "\033[000;000H";
+char change_position[] = "\033[000;000f";
 
 /*
 Es posible que de problemas cambindo la posición cuando el tamaño de las 
@@ -91,8 +91,8 @@ void tpg::FrameBuffer<Color>::render() {
 
             if ((Color::diff(*top, prev_top) >= minimum_change_) || (Color::diff(*bottom, prev_bottom) >= minimum_change_)) {
                 if (changed) {
-                    insert_uint8_t(change_position + 2, y);
-                    insert_uint8_t(change_position + 6, x);
+                    insert_uint8_t(change_position + 2, (y/2)+1);
+                    insert_uint8_t(change_position + 6, x+1);
                     fputs(change_position, stdout);
                 }
                 changed = false;
@@ -105,11 +105,11 @@ void tpg::FrameBuffer<Color>::render() {
                 changed = true;
             }
         }
-        if ((y < height_ - 2) && !changed)
+        if ((y < (height_ - 2)))
             fputs("\033[0m\n", stdout);
     }
     fflush(stdout);
-    force_full_render_ = false;
+    force_full_render_ = false; 
 }
 
 

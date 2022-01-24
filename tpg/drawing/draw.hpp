@@ -13,6 +13,8 @@ namespace tpg {
     template<typename Color>
     class DrawingCanvas : public tpg::Canvas<Color> {
         public:
+        using tpg::Canvas<Color>::Canvas;
+
         void render();
         virtual void begin(void (*loop)(tpg::DrawingCanvas<Color>&));
         

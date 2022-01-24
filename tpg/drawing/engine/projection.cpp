@@ -121,7 +121,7 @@ tpg::TMatrix tpg::Transform::get_matrix() {
         calculated_matrix_ *= { // Z axis
             std::cos(rotate_.z), -std::sin(rotate_.z), 0, 0,
             std::sin(rotate_.z), std::cos(rotate_.z), 0, 0,
-            0, 0, 1, 0,
+            0, 0, 0, 0,
             0, 0, 0, 1
         };
         // Scale matrix

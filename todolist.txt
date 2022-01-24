@@ -1,0 +1,5 @@
+Añadir una variable al canvas u_time con el tiempo en segundos que ha pasado desde que se realizó un begin()
+Añadir la funcionalidad para limpiar la pantalla mediante un color r-value
+Añadir un método para poder escalar en los tres ejes pasando un sólo parámetro
+Añadir comentarios al código que ya funciona
+Repasar los comentarios ya escritos
