@@ -12,7 +12,7 @@ CXX=g++
 CXXFLAGS= 
 VPATH = tpg/
 
-objects=build/framebuffer.o build/canvas.o build/draw.o build/vertex.o build/renderable.o 
+objects=build/framebuffer.o build/canvas.o build/draw.o build/renderable.o
 renderer_obj=$(shell find tpg/drawing/engine | pcregrep -o2 '(.*?[^\/]\/)+(.*?)\.cpp' | sed -e 's/$$/.o/') 
 
 main: $(objects) build/main.o $(renderobj) $(renderer_obj)
@@ -30,9 +30,6 @@ build/canvas.o: tpg/canvas/canvas.cpp tpg/canvas/canvas.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 build/draw.o: tpg/drawing/draw.cpp tpg/drawing/draw.hpp
 	$(DIRGUARD)	
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-build/vertex.o: tpg/drawing/vertex.cpp tpg/drawing/vertex.hpp
-	$(DIRGUARD)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 build/renderable.o: tpg/drawing/renderable.cpp tpg/drawing/renderable.hpp
 	$(DIRGUARD)

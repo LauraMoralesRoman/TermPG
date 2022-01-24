@@ -1,7 +1,7 @@
 #ifndef MATRICES_HPP
 #define MATRICES_HPP
 
-#include "../vertex.hpp"
+#include "vertex.hpp"
 
 namespace tpg {
     typedef double m_type;

@@ -2,7 +2,7 @@
 #define RENDERABLE_HPP
 
 #include "draw.hpp"
-#include "vertex.hpp"
+#include "engine/vertex.hpp"
 
 namespace tpg {
     class VertexBundle;

@@ -2,7 +2,7 @@
 #include "tpg/canvas/canvas.hpp"
 #include "tpg/drawing/draw.hpp"
 #include "tpg/drawing/renderable.hpp"
-#include "tpg/drawing/vertex.hpp"
+#include "tpg/drawing/engine/vertex.hpp"
 #include "tpg/drawing/engine/vector.hpp"
 #include "tpg/drawing/engine/projection.hpp"
 
@@ -32,7 +32,7 @@ void loop(tpg::DrawingCanvas<tpg::Color>& canvas) {
     static float angle = 0;
     tpg::Color black{0, 0, 0};
     canvas.clear(black);
-    canvas.rotate(0, 0, 0.05);
+    canvas.rotate(0, 0.05, 0.05);
     canvas.push_matrix();
     canvas.scale(scale, scale, scale);
     canvas.draw(vb);

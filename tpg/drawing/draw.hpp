@@ -3,7 +3,7 @@
 
 #include "../canvas/canvas.hpp"
 #include "renderable.hpp"
-#include "vertex.hpp"
+#include "engine/vertex.hpp"
 #include "engine/projection.hpp"
 
 
