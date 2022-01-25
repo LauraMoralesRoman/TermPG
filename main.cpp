@@ -23,19 +23,21 @@ void loop(tpg::DrawingCanvas<tpg::Color>& canvas) {
     u_time += canvas.delta_time;
     float scale = (std::cos(u_time) + 1.5);
 
-    tpg::VertexBundle vb(3, 3);
-    vb.indices[0] = 2;
-    vb[0] = {-0.5, -0.5, 0, {255, 0, 0}};
-    vb[1] = {-0.5, 0.5, 0, {0, 255, 0}};
-    vb[2] = {0.5, -0.5, 0, {0, 0, 255}};
+    tpg::VertexBundle vb2(3, 3);
+    vb2.indices[0] = 2;
+    vb2[0] = {-0.5, -0.5, 3, {0, 255, 0, 255}};
+    vb2[1] = {-0.5, 0.5, 3, {0, 255, 0}};
+    vb2[2] = {0.5, -0.5, 3, {0, 255, 0}};
     
     static float angle = 0;
     tpg::Color black{0, 0, 0};
     canvas.clear(black);
     canvas.rotate(0, 0, 0.05);
     canvas.push_matrix();
+    scale = 1.5;
     canvas.scale(scale, scale, scale);
-    canvas.draw(vb);
+    canvas.rotate(0, 0, 1);
+    canvas.draw(vb2);
     canvas.pop_matrix();
 }
 

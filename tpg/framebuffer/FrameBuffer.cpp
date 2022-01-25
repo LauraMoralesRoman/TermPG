@@ -211,6 +211,7 @@ tpg::Color tpg::Color::mix(const Color &a, const Color &b, const float ammount_a
     tmp.r = a.r * ammount_a + b.r * (1.0 - ammount_a);
     tmp.g = a.g * ammount_a + b.g * (1.0 - ammount_a);
     tmp.b = a.b * ammount_a + b.b * (1.0 - ammount_a);
+    tmp.a = a.a * ammount_a + b.a * (1.0 - ammount_a);
     return tmp;
 }
 

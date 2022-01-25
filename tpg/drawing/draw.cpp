@@ -2,11 +2,27 @@
 #include "../debug/tpgdebug.hpp"
 #include "engine/vector.hpp"
 
+#include "../canvas/canvas.hpp"
+
 #include <cassert>
+#include <cstring>
+
+template<typename Color>
+tpg::DrawingCanvas<Color>::DrawingCanvas(const size_t width, const size_t height)
+    : tpg::Canvas<Color>(width, height) {
+    depth_buffer = new v_type[width * height];
+}
+
+template<typename Color>
+tpg::DrawingCanvas<Color>::DrawingCanvas()
+{
+    depth_buffer = new v_type[FrameBuffer<Color>::width_ * FrameBuffer<Color>::height_];
+}
 
 template<typename Color>
 tpg::DrawingCanvas<Color>::~DrawingCanvas() {
     delete[] transform_stack_base;
+    delete[] depth_buffer;
 }
 
 template <typename Color> void tpg::DrawingCanvas<Color>::render() {
@@ -25,7 +41,6 @@ void tpg::DrawingCanvas<Color>::begin(void (*loop)(tpg::DrawingCanvas<Color> &))
 // ##############################################
 
 
-#include <iostream>
 // TODO: revert to template values
 template<typename Color>
 void tpg::DrawingCanvas<Color>::draw(VertexBundle<Color> const &vb) {
@@ -59,7 +74,15 @@ void tpg::DrawingCanvas<Color>::raster(const Vertex<Color>& a, const Vertex<Colo
         for (size_t i = 0; i < dir.mag; i++) {
             Vector3 v = Vector3(dir.norm);
             v *= -(v_type)i;
-            FrameBuffer<Color>::set_pixel(v.x + b.x, v.y + b.y, Color::mix(a.color, b.color, (float)i / dir.mag));
+            
+            Vector3 new_pos = v + Vector3(b.x, b.y, b.z);
+            if ((new_pos.x >= 0) && (new_pos.x < FrameBuffer<Color>::width_) && (new_pos.y >= 0) && (new_pos.y < FrameBuffer<Color>::height_)) {
+                v_type& z_index = depth_buffer[(size_t)(new_pos.x + new_pos.y * FrameBuffer<Color>::height_)];
+                if (new_pos.z < z_index) {
+                    FrameBuffer<Color>::set_pixel(v.x + b.x, v.y + b.y, Color::mix(a.color, b.color, (float)i / dir.mag));
+                    z_index = new_pos.z;
+                }
+            }
         }
     };
 
@@ -95,7 +118,7 @@ template<typename Color>
 void tpg::DrawingCanvas<Color>::translate(const m_type x, const m_type y, const m_type z) {
     transform_stack->transform.translate(x, y, z);
 }
-
+    
 template<typename Color>
 void tpg::DrawingCanvas<Color>::rotate(const m_type x, const m_type y, const m_type z) {
     transform_stack->transform.rotate(x, y, z);
@@ -104,6 +127,11 @@ void tpg::DrawingCanvas<Color>::rotate(const m_type x, const m_type y, const m_t
 template<typename Color>
 void tpg::DrawingCanvas<Color>::scale(const m_type x, const m_type y, const m_type z) {
     transform_stack->transform.scale(x, y, z);
+}
+
+template<typename Color>
+void tpg::DrawingCanvas<Color>::pre_loop_() {
+    memset(depth_buffer, 0b01111111, sizeof(v_type) * FrameBuffer<Color>::width_ * FrameBuffer<Color>::height_);
 }
 
 // Possible template values

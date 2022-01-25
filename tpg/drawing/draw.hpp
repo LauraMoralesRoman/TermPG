@@ -4,6 +4,7 @@
 #include "../canvas/canvas.hpp"
 #include "renderable.hpp"
 #include "engine/vertex.hpp"
+#include "engine/vector.hpp"
 #include "engine/projection.hpp"
 
 
@@ -13,7 +14,9 @@ namespace tpg {
     template<typename Color>
     class DrawingCanvas : public tpg::Canvas<Color> {
         public:
-        using tpg::Canvas<Color>::Canvas;
+        DrawingCanvas(const size_t width, const size_t height);
+        DrawingCanvas();
+
         ~DrawingCanvas();
 
         void render();
@@ -39,6 +42,10 @@ namespace tpg {
         uint8_t* transform_stack_base = new uint8_t[64 * sizeof(TransformStackNode)];
         TransformStackNode* transform_stack = new (transform_stack_base) TransformStackNode;
         size_t transformation_matrices = 1;
+
+        v_type* depth_buffer;
+
+        virtual void pre_loop_() override;
 
         protected:
         void raster(const Vertex<Color>& a, const Vertex<Color>& b, const Vertex<Color>& c);
