@@ -5,11 +5,11 @@
 #include "engine/vertex.hpp"
 
 namespace tpg {
+    template<typename Color>
     class VertexBundle;
 
     class Renderable {
         public:
-        virtual const VertexBundle& get_bundle() const = 0;
     };
 };
 

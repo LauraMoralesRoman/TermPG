@@ -12,6 +12,7 @@ namespace tpg {
         Vector3() = default;
         Vector3(const v_type x, const v_type y, const v_type z);
         Vector3(const v_type val);
+        Vector3(const V3& other);
 
         // Fast set operators
       
@@ -28,6 +29,7 @@ namespace tpg {
         const v_type& z = z_;
         
         const V3& norm = norm_;
+        const v_type& mag = mag_;
         private:
         v_type x_ = 0, y_ = 0, z_ = 0;
         v_type mag_ = 0;

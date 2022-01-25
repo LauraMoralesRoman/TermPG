@@ -14,6 +14,7 @@ namespace tpg {
     class DrawingCanvas : public tpg::Canvas<Color> {
         public:
         using tpg::Canvas<Color>::Canvas;
+        ~DrawingCanvas();
 
         void render();
         virtual void begin(void (*loop)(tpg::DrawingCanvas<Color>&));
@@ -21,7 +22,7 @@ namespace tpg {
         template<typename Shape, typename... Args>
         void draw(Args... constructor_args);
         void draw(const Renderable* renderable);
-        void draw(const VertexBundle& vertex_bundle);
+        void draw(const VertexBundle<Color>& vertex_bundle);
 
         // Matrix operations
         void push_matrix();
@@ -35,8 +36,12 @@ namespace tpg {
             TransformStackNode* next = nullptr;
             Transform transform;
         };
-        TransformStackNode* transform_stack = new TransformStackNode;
+        uint8_t* transform_stack_base = new uint8_t[64 * sizeof(TransformStackNode)];
+        TransformStackNode* transform_stack = new (transform_stack_base) TransformStackNode;
         size_t transformation_matrices = 1;
+
+        protected:
+        void raster(const Vertex<Color>& a, const Vertex<Color>& b, const Vertex<Color>& c);
     };
 }
 

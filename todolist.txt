@@ -1,3 +1,9 @@
+Añadir transformaciones a los vertexBundle
+    Para aplicarlas se hará un push_matrix copiando la transformación del vertexBundle al nuevo elemento de la pila
+
+Añadir función a la clase de vértice para devolver su posición como un vector
+
+
 Añadir una variable al canvas u_time con el tiempo en segundos que ha pasado desde que se realizó un begin()
 Añadir la funcionalidad para limpiar la pantalla mediante un color r-value
 Añadir un método para poder escalar en los tres ejes pasando un sólo parámetro

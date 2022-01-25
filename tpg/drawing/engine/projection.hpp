@@ -2,6 +2,7 @@
 #define MATRICES_HPP
 
 #include "vertex.hpp"
+#include "../../framebuffer/FrameBuffer.hpp"
 
 namespace tpg {
     typedef double m_type;
@@ -26,8 +27,15 @@ namespace tpg {
         TMatrix operator*(const TMatrix& other);
         TMatrix& operator*=(const TMatrix& other);
 
-        void transform(Vertex& v);
+        template<typename Color>
+        void transform(Vertex<Color>& v) {
+            Vertex<Color> tmp = v;
+            tmp.x = values[0][0] * v.x + values[0][1] * v.y + values[0][2] * v.z + values[0][3];
+            tmp.y = values[1][0] * v.x + values[1][1] * v.y + values[1][2] * v.z + values[1][3];
+            tmp.z = values[2][0] * v.x + values[2][1] * v.y + values[2][2] * v.z + values[2][3];
 
+            v = tmp;
+        }
         m_type* operator[](const size_t index);
 
         private:

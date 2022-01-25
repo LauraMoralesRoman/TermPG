@@ -205,6 +205,21 @@ void tpg::Color::apply(const Color& other) {
 
 }
 
+// Color mixing
+tpg::Color tpg::Color::mix(const Color &a, const Color &b, const float ammount_a) {
+    Color tmp;
+    tmp.r = a.r * ammount_a + b.r * (1.0 - ammount_a);
+    tmp.g = a.g * ammount_a + b.g * (1.0 - ammount_a);
+    tmp.b = a.b * ammount_a + b.b * (1.0 - ammount_a);
+    return tmp;
+}
+
+tpg::ColorBW tpg::ColorBW::mix(const ColorBW &a, const ColorBW &b, const float ammount_a) {
+    ColorBW tmp;
+    // TODO: implementation
+    return tmp;
+}
+
 // Declare available template types
 template class tpg::FrameBuffer<tpg::Color>;
 template class tpg::FrameBuffer<tpg::ColorBW>;

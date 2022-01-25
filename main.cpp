@@ -25,14 +25,14 @@ void loop(tpg::DrawingCanvas<tpg::Color>& canvas) {
 
     tpg::VertexBundle vb(3, 3);
     vb.indices[0] = 2;
-    vb[0] = {-0.5, -0.5, 0};
-    vb[1] = {-0.5, 0.5, 0};
-    vb[2] = {0.5, -0.5, 0};
+    vb[0] = {-0.5, -0.5, 0, {255, 0, 0}};
+    vb[1] = {-0.5, 0.5, 0, {0, 255, 0}};
+    vb[2] = {0.5, -0.5, 0, {0, 0, 255}};
     
     static float angle = 0;
     tpg::Color black{0, 0, 0};
     canvas.clear(black);
-    canvas.rotate(0, 0.05, 0.05);
+    canvas.rotate(0, 0, 0.05);
     canvas.push_matrix();
     canvas.scale(scale, scale, scale);
     canvas.draw(vb);
@@ -43,7 +43,7 @@ int main() {
     tpg::DrawingCanvas<tpg::Color> canvas;
     canvas.set_frame_rate(24);
 
-    canvas.translate(50, 40, 0);
+    canvas.translate(canvas.width / 2, canvas.height / 2, 0);
     canvas.scale(30, 30, 30);
     //canvas.render();
 
@@ -55,8 +55,6 @@ int main() {
 
     // Pruebas con vértices
     canvas.begin(loop);
-
-
 
     return 0;
 }

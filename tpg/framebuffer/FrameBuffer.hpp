@@ -137,6 +137,7 @@ namespace tpg {
         bool operator!=(const Color& other);
 
         void apply(const Color& other);
+        static Color mix(const Color& a, const Color& b, const float ammonut_a);
 
         static float diff(const Color& a, const Color& b);
         private:
@@ -157,6 +158,7 @@ namespace tpg {
         uint8_t value;
 
         static float diff(const ColorBW& a, const ColorBW& b);
+        static ColorBW mix(const ColorBW& a, const ColorBW& b, const float ammount_a);
 
         /**
           * @brief Conversion from int

@@ -70,14 +70,15 @@ tpg::TMatrix& tpg::TMatrix::operator*=(const TMatrix &other) {
     return *this;
 }
 
-void tpg::TMatrix::transform(Vertex &v) {
+/*template<typename Color>
+void tpg::TMatrix::transform<Color>(Vertex<Color> &v) {
     Vertex tmp;
     tmp.x = values[0][0] * v.x + values[0][1] * v.y + values[0][2] * v.z + values[0][3];
     tmp.y = values[1][0] * v.x + values[1][1] * v.y + values[1][2] * v.z + values[1][3];
     tmp.z = values[2][0] * v.x + values[2][1] * v.y + values[2][2] * v.z + values[2][3];
 
     v = tmp;
-}
+}*/
 
 // Transforms
 void tpg::Transform::translate(const m_type x, const m_type y, const m_type z) {

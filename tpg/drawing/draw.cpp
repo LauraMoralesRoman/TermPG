@@ -1,6 +1,13 @@
 #include "draw.hpp"
 #include "../debug/tpgdebug.hpp"
+#include "engine/vector.hpp"
+
 #include <cassert>
+
+template<typename Color>
+tpg::DrawingCanvas<Color>::~DrawingCanvas() {
+    delete[] transform_stack_base;
+}
 
 template <typename Color> void tpg::DrawingCanvas<Color>::render() {
   Canvas<Color>::render();
@@ -20,8 +27,8 @@ void tpg::DrawingCanvas<Color>::begin(void (*loop)(tpg::DrawingCanvas<Color> &))
 
 #include <iostream>
 // TODO: revert to template values
-template <>
-void tpg::DrawingCanvas<tpg::Color>::draw(VertexBundle const &vb) {
+template<typename Color>
+void tpg::DrawingCanvas<Color>::draw(VertexBundle<Color> const &vb) {
   if (vb.num_indices % 3) {
     tpg::debug_info::error("Number of vertices %u is not divisible by 3. This "
                            "triangle won't be shown");
@@ -29,9 +36,9 @@ void tpg::DrawingCanvas<tpg::Color>::draw(VertexBundle const &vb) {
   }
 
   for (size_t i = 0; i < vb.num_indices; i += 3) {
-    Vertex v1 = vb[i];
-    Vertex v2 = vb[i + 1];
-    Vertex v3 = vb[i + 2];
+    Vertex<Color> v1 = vb[i];
+    Vertex<Color> v2 = vb[i + 1];
+    Vertex<Color> v3 = vb[i + 2];
 
     // Apply transforms to vertices
     TMatrix T = transform_stack->transform.get_matrix();
@@ -40,27 +47,32 @@ void tpg::DrawingCanvas<tpg::Color>::draw(VertexBundle const &vb) {
     T.transform(v2);
     T.transform(v3);
     
-    Vertex::V3 vv1 = v1.get_aprox();
-    Vertex::V3 vv2 = v2.get_aprox();
-    Vertex::V3 vv3 = v3.get_aprox();
-
-
-    FrameBuffer<Color>::set_pixel(vv1.x, vv1.y, {255, 0, 0});
-    FrameBuffer<Color>::set_pixel(vv2.x, vv2.y, {0, 255, 0});
-    FrameBuffer<Color>::set_pixel(vv3.x, vv3.y, {0, 0, 255});
+    raster(v1, v2, v3);
   }
 }
 
+// Rasterization
 template<typename Color>
-void tpg::DrawingCanvas<Color>::draw(VertexBundle const &vb) {
+void tpg::DrawingCanvas<Color>::raster(const Vertex<Color>& a, const Vertex<Color>& b, const Vertex<Color>& c) {
+    auto line = [this](const Vertex<Color>& a, const Vertex<Color>& b) {
+        Vector3 dir = Vector3(b.x, b.y, b.z) - Vector3(a.x, a.y, a.z);
+        for (size_t i = 0; i < dir.mag; i++) {
+            Vector3 v = Vector3(dir.norm);
+            v *= -(v_type)i;
+            FrameBuffer<Color>::set_pixel(v.x + b.x, v.y + b.y, Color::mix(a.color, b.color, (float)i / dir.mag));
+        }
+    };
 
+    line(a, b);
+    line(a, c);
+    line(b, c);
 }
 
 // Matrix operations
 template<typename Color>
 void tpg::DrawingCanvas<Color>::push_matrix() {
     TransformStackNode* tmp = transform_stack; 
-    transform_stack = new TransformStackNode;
+    transform_stack = new (transform_stack_base + transformation_matrices * sizeof(TransformStackNode)) TransformStackNode;
     transform_stack->next = tmp;
 
     // Apply transform
@@ -74,9 +86,7 @@ void tpg::DrawingCanvas<Color>::pop_matrix() {
     if (transformation_matrices == 1)
         return;
 
-    TransformStackNode* tmp = transform_stack->next;
-    delete transform_stack;
-    transform_stack = tmp;
+    transform_stack = transform_stack->next;
 
     transformation_matrices--;
 }
